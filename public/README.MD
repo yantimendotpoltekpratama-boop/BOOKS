@@ -35,4 +35,68 @@ Flowork dibangun dengan filosofi inti yang mengutamakan privasi data, kinerja, d
 
 ### 💻 Penuh Fitur untuk Developer
 * **Mesin Runner Multi-Bahasa:** Jalankan modul kode yang ditulis dalam **Python, JavaScript, Bash, PHP, Perl, dan Ruby** langsung di dalam *workflow* visual Anda.
-* **Debugger "Time Traveler":** Memungkinkan Anda memeriksa
+* **Debugger "Time Traveler":** Memungkinkan Anda memeriksa *state* data (*variabel* dan *payload*) **setelah setiap *node*** dieksekusi.
+* **Mode "Quick Run":** Memungkinkan *developer* mengeksekusi **satu *modul* secara independen** untuk pengujian dan *debugging* cepat.
+* **Pelatihan AI Terintegrasi:** Mendukung *workflow* untuk **Pelatihan Model AI** yang dilakukan sepenuhnya di dalam lingkungan server Anda.
+
+### ⚙️ Otomatisasi OS-Native & Kolaborasi
+* **Pengamat Sistem File (File Watchers):** Picu *workflow* secara instan saat ada perubahan (pembuatan, modifikasi, penghapusan) di direktori atau *file* lokal.
+* **Pemantauan Proses & Cron:** Mulai tugas berdasarkan jadwal Cron atau status proses lokal lainnya yang sedang berjalan.
+* **Berbagi Engine:** Pengguna dapat **berbagi akses ke Engine** (server) mereka dengan pengguna Flowork lain di bawah kontrol izin yang ketat.
+* **Berbagi Preset:** Bagikan *workflow* atau *preset* yang telah Anda buat dengan mudah.
+
+---
+
+## 🚀 Instalasi Cepat (Docker)
+
+Panduan ini menggunakan Docker Compose untuk penyiapan lokal yang cepat.
+
+### Prasyarat
+* Docker Desktop (atau Docker Engine)
+* Python 3.11+ (untuk menjalankan skrip pengaturan)
+
+### Langkah-langkah Instalasi
+1.  **Buat Environment:** Hasilkan ID Engine, Token, dan *Admin Login Private Key* baru dengan menjalankan skrip Python yang disediakan.
+    ```bash
+    python generate_env.py
+    ```
+
+2.  **Build dan Jalankan Kontainer:** Bangun dan jalankan *stack* Docker. Ini akan menyiapkan **Gateway** (termasuk Core Kernel, migrasi database, dan dependensi AI/ML).
+    ```bash
+    # PENTING: Gunakan --force-recreate --no-cache untuk build pertama kali.
+    docker-compose up --build --force-recreate -d
+    
+    # Untuk restart selanjutnya:
+    docker-compose up -d
+    ```
+
+3.  **Dapatkan Private Key (Login):** Periksa *log* kontainer Gateway untuk mengambil *private key* admin yang baru dibuat. Simpan ini di tempat yang aman!
+    ```bash
+    docker-compose logs flowork_gateway
+    # Cari baris yang berisi: !!! YOUR LOGIN PRIVATE KEY IS: ...
+    ```
+
+---
+
+## 🔌 Konfigurasi Cloudflare Tunnel (Wajib)
+
+GUI Flowork di *cloud* perlu mengakses API Gateway Anda yang berjalan di server Anda. Kami menggunakan Cloudflare Tunnel untuk ini.
+
+1.  **Dapatkan Token:** Dapatkan **Cloudflare Tunnel Token** Anda dari *dashboard* Cloudflare Zero Trust.
+2.  **Atur di .env:** Buka *file* `.env` Anda dan pastikan variabel `CLOUDFLARED_TUNNEL_TOKEN` diisi dengan token Anda.
+3.  **Restart Kontainer:** *Restart* kontainer `flowork_cloudflared` (atau jalankan `docker-compose up -d` lagi) agar *tunnel* terhubung ke layanan Gateway (`http://flowork_gateway:8000`).
+
+---
+
+## 🌐 Komunitas & Sumber Daya
+
+Bergabunglah dengan komunitas kami yang sedang berkembang! Kami menyambut kontribusi, umpan balik, dan pertanyaan Anda.
+
+| Platform | Tautan |
+| :--- | :--- |
+| **Website** | [https://flowork.cloud](https://flowork.cloud) |
+| **Repo GitHub** | [https://github.com/flowork-dev/Visual-AI-Workflow-Automation-Platform.git](https://github.com/flowork-dev/Visual-AI-Workflow-Automation-Platform.git) |
+| **Dokumentasi (Docs)** | [https://docs.flowork.cloud/](https://docs.flowork.cloud/) |
+| **Server Discord** | [https://discord.gg/Gv7h5d5d](https://discord.gg/Gv7h5d5d) |
+| **Channel Telegram** | [https://t.me/FLOWORK_AUTOMATION](https://t.me/FLOWORK_AUTOMATION) |
+| **Playlist YouTube** | [https://www.youtube.com/playlist?list=PLATUnnrT5igDXCqjBVvkmE4UKq9XASUtT](https://www.youtube.com/playlist?list=PLATUnnrT5igDXCqjBVvkmE4UKq9XASUtT) |
