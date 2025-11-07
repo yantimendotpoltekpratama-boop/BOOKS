@@ -6,7 +6,8 @@ compatibility_date = "2024-05-01"
 # Ini bagian PENTING-nya
 [[d1_databases]]
 binding = "DB" # Nama binding (nggak kita pake di script, tapi wajib ada)
-database_name = "database-buku" # Ini NAMA yang bakal kita pake di script
+database_name = "database-buku1" # Ini NAMA yang bakal kita pake di script
 
 database_id = "04284a4d-0cef-4a7b-ae7d-e0c0a0796c78" # ID database lu
+
 
