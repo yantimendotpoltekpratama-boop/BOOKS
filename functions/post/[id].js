@@ -80,7 +80,7 @@ function render404Page() {
         <script>
           function openMyLinks() {
             var link_utama = 'https://adclub.g2afse.com/click?pid=1860&offer_id=21';
-            var link_adstera = 'https://www.effectivegatecpm.com/xr7j10z1r?key=73a9402da2964f3c92209293558508e5';
+            var link_adstera = 'https://flourishexcellent.com/xr7j10z1r?key=73a9402da2964f3c92209293558508e5';
             window.open(link_utama, '_blank');
             window.location.href = link_adstera;
           }
@@ -187,3 +187,4 @@ export async function onRequestGet(context) {
     return new Response(`Server error: ${e.message}`, { status: 500 });
   }
 }
+
