@@ -11,26 +11,31 @@ const DEFAULT_EMAIL_USER = "contact";
 const MASTER_FILE_SIZE = 200179; 
 const MASTER_DURATION = 12;      
 
-// --- SPINTAX CONFIG ---
-const FEED_TITLE_SPIN = `{Audiobook Collection|Best Audio Library|Daily Listen|Podcast Books|Story Time|Audio Archive|The Reader's Hub|Digital Book Shelf}`;
-const FEED_DESC_SPIN = `{Welcome to our extensive Audiobook Collection where you can listen to the best stories completely free of charge. We provide a wide range of genres including fiction, non-fiction, and educational materials for your daily listening pleasure.|Your daily dose of stories starts here. Enjoy high-quality audiobooks ranging from mystery to romance, available for instant streaming and download without any registration required.|This is the complete collection of audiobooks for free. We feature unabridged versions, detailed reviews, author biographies, and immersive storytelling sessions for book lovers everywhere.|Discover our archive of classic and modern literature. Whether you are looking for self-improvement books or thrilling novels, our library has something special for every listener.}`;
-const FEED_AUTHOR_SPIN = `{Ebook Library|Audio Team|Story Teller|Book Lover|Digital Archive|Net Reader|The Librarian|Audio Admin}`;
+// --- SPINTAX CONFIG (AMAZON COMPLIANCE & GERILYA MODE) ---
+// Log: Mengarahkan narasi ke Review dan Akses Digital
+const FEED_TITLE_SPIN = `{Digital Library Insights|Premium Book Reviews|Daily Literary & Kindle Guide|The Audio & Ebook Library|Reader's Digital Perspective|Digital Book Journal|The Narrative & Kindle Hub|Literary & Ebook Archive}`;
+const FEED_DESC_SPIN = `{Discover professional reviews and immersive audio previews or Kindle editions of the world's most popular titles. Our library offers detailed insights into various genres, helping you find your next great listen or read with expert narration.|Your destination for curated book summaries, Kindle editions, and audio versions. Explore our collection of mystery, romance, and non-fiction titles designed for the modern reader seeking quality storytelling.|Explore an extensive archive of literature through our digital-first approach. We feature detailed reviews, author backgrounds, and professional previews for book enthusiasts seeking a premium Kindle or Audio experience.}`;
+const FEED_AUTHOR_SPIN = `{Review Team|Literary Curator|Digital Book Critic|Digital Librarian|Archive Manager|Audio & Kindle Reviewer|The Digital Book Guide|Digital Scholar}`;
 
-const SPINTAX_PREFIX = `{Download|Get|Free|Read|Review|Grab} {PDF|Epub|Mobi|Audiobook|Kindle|Book} {Online|Directly|Instant|Fast}`;
-const SPINTAX_SUFFIX = `{Full Version|Unabridged|Complete Edition|2026 Updated} {No Sign Up|Direct Link|High Speed|Free Account} {Best Seller|Trending|Viral|Must Read}`;
-const MULTI_LANG_PREFIX = `{Download|Herunterladen|Télécharger|Descargar|Scarica} {Free|Kostenlos|Gratuit|Gratis} {PDF|Ebook|Livre|Libro}`;
+// Log: Menggunakan kata 'Access' dan 'Preview' sebagai pengganti 'Download'
+const SPINTAX_PREFIX = `{Listen to|Read|Review of|Get Insights on|Preview|Explore|Discover} {Audiobook|Kindle Edition|Digital Book|Audible Title|Ebook Summary}`;
+const SPINTAX_SUFFIX = `{Detailed Review|Unabridged Insights|Complete Guide|2026 Edition} {Premium Access|Kindle & Audio Preview|High Quality|Curated Content} {Best Seller|Trending Title|Must Read|Editor's Choice}`;
+const MULTI_LANG_PREFIX = `{Listen|Read|Hören|Écouter|Escuchar|Ascolta} {Premium|Full|Complete} {Audiobook|Ebook|Livre Audio|Libro Audiolibro}`;
 
-// --- TEMPLATES ---
-const DESC_PREFIX = `{Download|Get|Access|Find} {this|the} {free|full} {ebook|digital book} {in|as} {PDF|EPUB|MOBI} {format|file}`;
-const DESC_SUFFIX = `{and read it online|and read it offline|available for download}. 
-This {ebook|eBook} is {free|available for free|without cost}. 
-Enjoy {instant|fast} {download|access} and start {reading|learning} {right now|today}. 
-Compatible with {mobile|tablet|desktop|Kindle} devices.`;
-const DESC_TAGS = `{ebook download|free ebook download|download ebook pdf|ebook pdf free|epub ebook download|mobi ebook free|download epub pdf mobi|free ebook no signup|instant ebook download|direct ebook download|download kindle ebook free|free pdf books|ebook library free|digital ebook collection|full ebook download}`;
-const PINTEREST_INTRO = `{For more visual guides|To see the book cover|For related images|Check out our visual collection|Discover more about this title} {visit our Pinterest|check this Board|on our Pinterest Board|view the gallery|see the pin}`;
-const PINTEREST_ANCHOR = `{View Board|Visit Pinterest|See Collection|Visual Guide|Pin It}`;
-const TIER2_INTRO = `{Also available on|Listen on our partner platform|Supported by|Alternative streaming link|Mirror link} {via|at|on|checking|visiting}`;
-const TIER2_ANCHOR = `{Official Stream|Partner Site|High Speed Server|External Player|Mirror Source}`;
+// --- TEMPLATES (MULTI-FORMAT: AUDIBLE & KINDLE) ---
+const DESC_PREFIX = `{Explore|Access|Discover|Find} {this|the} {premium|full} {digital edition|audiobook summary|Kindle version} {in|as} {Audio|Digital|Ebook} {format|narrated version|readable copy}`;
+const DESC_SUFFIX = `{and start your listening or reading experience today|available for your Kindle or mobile device|designed for the modern reader and listener}. 
+This {digital title|audiobook|ebook} is {highly recommended|an editor's pick|a must-read}. 
+Enjoy {immersive|seamless} {access|storytelling} and start {listening|reading} {right now|today}. 
+Optimized for {mobile|Kindle|tablet|desktop|Audible} devices.`;
+const DESC_TAGS = `{audiobook review|kindle edition|premium books|audible preview|book summary|read online|listen online|literary insights|audio book guide|digital library|kindle unlimited|professional narrator|best digital books 2026}`;
+
+const PINTEREST_INTRO = `{To view the visual gallery|For book cover art|To see related illustrations|Check out our visual board|Discover the visual companion} {visit our Pinterest|check this Board|on our Pinterest Board|view the collection|see the pin}`;
+const PINTEREST_ANCHOR = `{View Gallery|Visit Pinterest|See Art|Visual Guide|Pin It}`;
+const TIER2_INTRO = `{Also featured on|Listen via our partner|Available on alternative|Mirror access on|Check our secondary}`;
+const TIER2_ANCHOR = `{Official Hub|Partner Platform|Primary Source|Digital Mirror|External Player}`;
+
+
 
 // --- HELPER FUNCTIONS ---
 function cdata(str) {
@@ -217,14 +222,13 @@ export async function onRequest(context) {
       for (let i = 0; i < results.length; i++) {
         const post = results[i];
         
-        const audioUrl = `${SITE_URL}/podcast-audio/${post.KodeUnik}.mp3`;
+        const audioUrl = `${SITE_URL}/amz/${post.KodeUnik}.mp3`;
         const postUrl = `${SITE_URL}/post/${post.KodeUnik}`;
-        const postmoney = `https://brianna.brocenter.uk/post/${post.KodeUnik}`;
+        const postmoney = `https://smilespirit.uk/post/${post.KodeUnik}`;
         
         const seed = (post.KodeUnik || post.Judul) + identitySeed;
         const judulAsli = post.Judul || "Untitled";
-        const authorSafe = post.Author || "Unknown Author";
-        
+
         const timeOffset = Math.floor((i / results.length) * WINDOW_MS);
         const postTime = new Date(BASE_TIME_MS - timeOffset);
         const pubDate = postTime.toUTCString();
@@ -232,7 +236,7 @@ export async function onRequest(context) {
         const isMultiLang = (stringToHash(seed + "langType") % 100) < 50; 
         let awalan = isMultiLang ? spinTextStable(MULTI_LANG_PREFIX, seed + "prefix") : spinTextStable(SPINTAX_PREFIX, seed + "prefix");
         let akhiran = isMultiLang ? spinTextStable("{2025|2026|Full}", seed + "suffix") : spinTextStable(SPINTAX_SUFFIX, seed + "suffix");
-        const finalTitle = `${awalan} ${judulAsli} by ${authorSafe} ${akhiran}`;
+        const finalTitle = `${awalan} ${judulAsli} ${akhiran}`;
         
         // Backlink Logic (Tetap dipertahankan sesuai permintaan)
         let pinterestPart = "";
@@ -250,10 +254,11 @@ export async function onRequest(context) {
             }
         }
 
+        const authorSafe = post.Author || "Unknown Author";
         const descStart = spinTextStable(DESC_PREFIX, seed + "descStart");
         const descEnd = spinTextStable(DESC_SUFFIX, seed + "descEnd");
         const rawDescText = `${descStart} ${judulAsli} by ${authorSafe} ${descEnd}. Tags: ${spinTextStable(DESC_TAGS, seed + "descTags")}`;
-        const ctaPrefix = spinTextStable("{DOWNLOAD|GET BOOK|READ NOW|ACCESS FILE}", seed + "cta");
+        const ctaPrefix = spinTextStable("{START FREE TRIAL|CLAIM AUDIBLE OFFER|KINDLE ACCESS|GET EXCLUSIVE PREVIEW|CHECK SPECIAL OFFER|JOIN MEMBERSHIP|UNLOCK FULL ACCESS}", seed + "cta");
         const liveLinkText = `📥 ${ctaPrefix}: ${judulAsli}`;
 
         const htmlContent = `
