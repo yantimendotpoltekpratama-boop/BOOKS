@@ -11,7 +11,6 @@ const DEFAULT_EMAIL_USER = "contact";
 const MASTER_FILE_SIZE = 200179; 
 const MASTER_DURATION = 12;      
 
-// --- SPINTAX CONFIG ---
 const FEED_TITLE_SPIN = `{Audiobook Collection|Best Audio Library|Daily Listen|Podcast Books|Story Time|Audio Archive|The Reader's Hub|Digital Book Shelf}`;
 const FEED_DESC_SPIN = `{Welcome to our extensive Audiobook Collection where you can listen to the best stories completely free of charge. We provide a wide range of genres including fiction, non-fiction, and educational materials for your daily listening pleasure.|Your daily dose of stories starts here. Enjoy high-quality audiobooks ranging from mystery to romance, available for instant streaming and download without any registration required.|This is the complete collection of audiobooks for free. We feature unabridged versions, detailed reviews, author biographies, and immersive storytelling sessions for book lovers everywhere.|Discover our archive of classic and modern literature. Whether you are looking for self-improvement books or thrilling novels, our library has something special for every listener.}`;
 const FEED_AUTHOR_SPIN = `{Ebook Library|Audio Team|Story Teller|Book Lover|Digital Archive|Net Reader|The Librarian|Audio Admin}`;
@@ -31,6 +30,8 @@ const PINTEREST_INTRO = `{For more visual guides|To see the book cover|For relat
 const PINTEREST_ANCHOR = `{View Board|Visit Pinterest|See Collection|Visual Guide|Pin It}`;
 const TIER2_INTRO = `{Also available on|Listen on our partner platform|Supported by|Alternative streaming link|Mirror link} {via|at|on|checking|visiting}`;
 const TIER2_ANCHOR = `{Official Stream|Partner Site|High Speed Server|External Player|Mirror Source}`;
+
+
 
 // --- HELPER FUNCTIONS ---
 function cdata(str) {
@@ -217,14 +218,13 @@ export async function onRequest(context) {
       for (let i = 0; i < results.length; i++) {
         const post = results[i];
         
-        const audioUrl = `${SITE_URL}/podcast-audio/${post.KodeUnik}.mp3`;
+        const audioUrl = `${SITE_URL}/amz/${post.KodeUnik}.mp3`;
         const postUrl = `${SITE_URL}/post/${post.KodeUnik}`;
-        const postmoney = `https://brianna.brocenter.uk/post/${post.KodeUnik}`;
+        const postmoney = `https://brianna.smilespirit.uk/post/${post.KodeUnik}`;
         
         const seed = (post.KodeUnik || post.Judul) + identitySeed;
         const judulAsli = post.Judul || "Untitled";
-        const authorSafe = post.Author || "Unknown Author";
-        
+
         const timeOffset = Math.floor((i / results.length) * WINDOW_MS);
         const postTime = new Date(BASE_TIME_MS - timeOffset);
         const pubDate = postTime.toUTCString();
@@ -232,7 +232,7 @@ export async function onRequest(context) {
         const isMultiLang = (stringToHash(seed + "langType") % 100) < 50; 
         let awalan = isMultiLang ? spinTextStable(MULTI_LANG_PREFIX, seed + "prefix") : spinTextStable(SPINTAX_PREFIX, seed + "prefix");
         let akhiran = isMultiLang ? spinTextStable("{2025|2026|Full}", seed + "suffix") : spinTextStable(SPINTAX_SUFFIX, seed + "suffix");
-        const finalTitle = `${awalan} ${judulAsli} by ${authorSafe} ${akhiran}`;
+        const finalTitle = `${awalan} ${judulAsli} ${akhiran}`;
         
         // Backlink Logic (Tetap dipertahankan sesuai permintaan)
         let pinterestPart = "";
@@ -250,10 +250,11 @@ export async function onRequest(context) {
             }
         }
 
+        const authorSafe = post.Author || "Unknown Author";
         const descStart = spinTextStable(DESC_PREFIX, seed + "descStart");
         const descEnd = spinTextStable(DESC_SUFFIX, seed + "descEnd");
         const rawDescText = `${descStart} ${judulAsli} by ${authorSafe} ${descEnd}. Tags: ${spinTextStable(DESC_TAGS, seed + "descTags")}`;
-        const ctaPrefix = spinTextStable("{DOWNLOAD|GET BOOK|READ NOW|ACCESS FILE}", seed + "cta");
+        const ctaPrefix = spinTextStable("{START FREE TRIAL|CLAIM AUDIBLE OFFER|KINDLE ACCESS|GET EXCLUSIVE PREVIEW|CHECK SPECIAL OFFER|JOIN MEMBERSHIP|UNLOCK FULL ACCESS}", seed + "cta");
         const liveLinkText = `📥 ${ctaPrefix}: ${judulAsli}`;
 
         const htmlContent = `
